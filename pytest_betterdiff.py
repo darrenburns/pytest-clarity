@@ -158,10 +158,8 @@ def _hints_for(op, lhs, rhs):
         if _has_default_repr(lhs) and _has_default_repr(rhs):
             lhs_auto_repr, rhs_auto_repr = Hint.auto_repr(lhs), Hint.auto_repr(rhs)
 
-            print(lhs_auto_repr)
             lhs_auto_repr_diff, rhs_auto_repr_diff = _build_diff(lhs_auto_repr, rhs_auto_repr)
 
-            print(lhs_auto_repr_diff)
             hints.append(_hint_text('No __repr__ found, showing attribute value diff: '))
 
             if lhs_auto_repr_diff and rhs_auto_repr_diff:
