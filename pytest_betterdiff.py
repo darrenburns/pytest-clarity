@@ -9,11 +9,6 @@ import six
 from six import u
 from termcolor import colored
 
-try:
-    from collections import Sequence
-except:
-    from collections.abc import Sequence
-
 
 class Color(object):
     red = 'red'
@@ -132,7 +127,7 @@ def _possibly_missing_eq(lhs, rhs):
         return False
 
     return all([
-        type(lhs) is type(rhs),
+        isinstance(lhs, type(rhs)),
         lhs != rhs,
         left_dict == right_dict,
     ])
@@ -170,19 +165,20 @@ def _hints_for(op, lhs, rhs):
             hints.append(_hint_text('No __repr__ found, showing attribute value diff: '))
 
             if lhs_auto_repr_diff and rhs_auto_repr_diff:
-                lhs_auto_repr_diff[0] = Color.stop + _diff_intro_text(' ' * 4 + 'left attrs:  ') + lhs_auto_repr_diff[0]
-                rhs_auto_repr_diff[0] = Color.stop + _diff_intro_text(' ' * 4 + 'right attrs: ') + rhs_auto_repr_diff[0]
+                lhs_auto_repr_diff[0] = Color.stop + \
+                    _diff_intro_text(' ' * 4 + 'left attrs:  ') + lhs_auto_repr_diff[0]
+                rhs_auto_repr_diff[0] = Color.stop + \
+                    _diff_intro_text(' ' * 4 + 'right attrs: ') + rhs_auto_repr_diff[0]
 
             hints.extend(lhs_auto_repr_diff)
             hints.extend(rhs_auto_repr_diff)
 
-
         if _is_iterable(lhs) and _is_iterable(rhs):
             lhs_set, rhs_set = set(lhs), set(rhs)
-            if type(lhs) == dict and type(rhs) == dict:
+            if isinstance(lhs, dict) and isinstance(rhs, dict):
                 if lhs_set == rhs_set:
                     hints.append(Hint.dict_same_keys())
-            if type(lhs) == list and type(rhs) == list:
+            if isinstance(lhs, list) and isinstance(rhs, list):
                 if lhs_set == rhs_set:
                     hints.append(Hint.list_same_elems())
 
