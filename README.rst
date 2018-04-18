@@ -29,7 +29,7 @@ Features
 Requirements
 ------------
 
-Supports Python 2.7.X and 3.X.
+Supports Python 2.7.X, 3.4, 3.5, and 3.6. Untested on newer versions.
 
 
 Installation
@@ -44,6 +44,17 @@ Usage
 -----
 
 Install the plugin as described above, and it will automatically enabled.
+
+You may need to use the :code:`-vv` pytest flag to display the full output in larger diffs:
+
+.. code-block::python
+    pytest -vv
+
+You can disable hints using the :code:`--no-hints` flag:
+
+.. code-block::python
+    pytest -vv --no-hints
+
 
 Contributing
 ------------
