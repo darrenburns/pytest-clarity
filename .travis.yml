@@ -18,8 +18,10 @@ matrix:
       - python: 3.6
         env: TOX_ENV=flake8
 
+
+
 install:
-  - pip install tox
+  - pip install -r requirements.txt
 
 script:
   - tox -e $TOX_ENV
