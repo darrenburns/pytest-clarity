@@ -89,7 +89,7 @@ def _pformat_no_color(s, width):
     return pprint.pformat(s, width=width).replace('\n', '\n' + Color.stop)
 
 
-def _build_diff(lhs, rhs):
+def _build_split_diff(lhs, rhs):
     width = 60
 
     lhs_repr, rhs_repr = lhs, rhs
@@ -158,7 +158,8 @@ def _hints_for(op, lhs, rhs):
         if _has_default_repr(lhs) and _has_default_repr(rhs):
             lhs_auto_repr, rhs_auto_repr = Hint.auto_repr(lhs), Hint.auto_repr(rhs)
 
-            lhs_auto_repr_diff, rhs_auto_repr_diff = _build_diff(lhs_auto_repr, rhs_auto_repr)
+            lhs_auto_repr_diff, rhs_auto_repr_diff = _build_split_diff(
+                lhs_auto_repr, rhs_auto_repr)
 
             hints.append(_hint_text('No __repr__ found, showing attribute value diff: '))
 
@@ -187,12 +188,19 @@ def _display_op_for(pytest_op):
     return '==' if pytest_op == 'equal' else pytest_op
 
 
+def pytest_addoption(parser):
+    parser.addoption(
+        '--no-hints',
+        action='store_true',
+        default=False,
+        help='disable pytest-betterdiff hints (boolean)',
+    )
+
+
 def pytest_assertrepr_compare(config, op, left, right):
     display_op = _display_op_for(op)
 
-    verbose = config.getoption('verbose')
-
-    lhs_diff, rhs_diff = _build_diff(left, right)
+    lhs_diff, rhs_diff = _build_split_diff(left, right)
     output = [u('left {} right failed, where: ').format(display_op), '']
 
     if lhs_diff and rhs_diff:
@@ -201,8 +209,7 @@ def pytest_assertrepr_compare(config, op, left, right):
 
     output += lhs_diff + rhs_diff
 
-    # TODO create a config option to enable/disable hints
-    if verbose:
+    if not config.getoption('--no-hints'):
         output += _hints_for(op, left, right)
 
     return output
