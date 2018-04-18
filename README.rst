@@ -47,12 +47,14 @@ Install the plugin as described above, and it will automatically enabled.
 
 You may need to use the :code:`-vv` pytest flag to display the full output in larger diffs:
 
-.. code-block::python
+::
+
     pytest -vv
 
 You can disable hints using the :code:`--no-hints` flag:
 
-.. code-block::python
+::
+
     pytest -vv --no-hints
 
 
