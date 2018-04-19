@@ -52,14 +52,14 @@ class Hint(object):
     @staticmethod
     def list_same_elems():
         return _hint_text(
-            'left and right contain the same items, but in a different order: '
+            'left and right are lists with the same items, but in a different order: '
             'set(left) == set(right)'
         )
 
     @staticmethod
     def dict_same_keys():
         return _hint_text(
-            'left and right have the same keys: '
+            'left and right are dicts with the same keys: '
             'set(left) == set(right)'
         )
 
@@ -87,43 +87,6 @@ def _hint_text(text):
 
 def _pformat_no_color(s, width):
     return pprint.pformat(s, width=width)
-
-
-def _splitlines_colored(s):
-    """
-    :param s: a string to split into a list on the \n characters
-    :return: a list of strings, that retains terminal codes between lines
-    """
-    lines = s.splitlines()
-    if len(lines) < 2:
-        return lines
-
-    output = []
-    output.append(lines[0])
-    for i, line in enumerate(lines):
-        if i == 0:
-            continue
-
-        # attach everything that comes beyond the leftmost terminal code which isnt followed by a stopcode
-        prev_l = lines[i - 1]
-        rstop_idx = prev_l.rfind(Color.stop)
-
-        print('prev_l: {}'.format(repr(lines[i-1])))
-        print('rstop_idx: {}'.format(rstop_idx))
-
-        # collapse a window around the largest sequence of terminal codes
-        prev_term_code = prev_l[0 if rstop_idx == -1 else rstop_idx:]
-        prev_term_code = prev_term_code[prev_term_code.find('\033['):]
-        prev_term_code = prev_term_code[:prev_term_code.rfind('[') + 3]
-
-        print('prev_term_code: {}'.format(repr(prev_term_code)))
-        print('line: {}'.format(repr(line)))
-
-        # if the terminal code doesnt reset attributes, check what the code is and re-apply it
-        output.append(prev_term_code + line)
-
-
-    return output
 
 
 def _build_split_diff(lhs, rhs):
@@ -172,8 +135,8 @@ def _build_split_diff(lhs, rhs):
 
 def _possibly_missing_eq(lhs, rhs):
     try:
-        left_dict, right_dict = lhs.__dict__, rhs.__dict__
-    except AttributeError:
+        left_dict, right_dict = vars(lhs), vars(rhs)
+    except TypeError:
         return False
 
     return all([
@@ -251,8 +214,6 @@ def pytest_assertrepr_compare(config, op, left, right):
     display_op = _display_op_for(op)
 
     lhs_diff, rhs_diff = _build_split_diff(left, right)
-
-    print(rhs_diff)
 
     output = [u('left {} right failed, where: ').format(display_op), '']
 
