@@ -24,7 +24,7 @@ setup(
     long_description=read('README.rst'),
     py_modules=['pytest_betterdiff'],
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
-    install_requires=['pytest>=3.5.0'],
+    install_requires=['pytest>=3.5.0', 'termcolor==1.1.0'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Pytest',
