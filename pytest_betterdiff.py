@@ -86,36 +86,86 @@ def _hint_text(text):
 
 
 def _pformat_no_color(s, width):
-    return pprint.pformat(s, width=width).replace('\n', '\n' + Color.stop)
+    return pprint.pformat(s, width=width)
+
+
+def _splitlines_colored(s):
+    """
+    :param s: a string to split into a list on the \n characters
+    :return: a list of strings, that retains terminal codes between lines
+    """
+    lines = s.splitlines()
+    if len(lines) < 2:
+        return lines
+
+    output = []
+    output.append(lines[0])
+    for i, line in enumerate(lines):
+        if i == 0:
+            continue
+
+        # attach everything that comes beyond the leftmost terminal code which isnt followed by a stopcode
+        prev_l = lines[i - 1]
+        rstop_idx = prev_l.rfind(Color.stop)
+
+        print('prev_l: {}'.format(repr(lines[i-1])))
+        print('rstop_idx: {}'.format(rstop_idx))
+
+        # collapse a window around the largest sequence of terminal codes
+        prev_term_code = prev_l[0 if rstop_idx == -1 else rstop_idx:]
+        prev_term_code = prev_term_code[prev_term_code.find('\033['):]
+        prev_term_code = prev_term_code[:prev_term_code.rfind('[') + 3]
+
+        print('prev_term_code: {}'.format(repr(prev_term_code)))
+        print('line: {}'.format(repr(line)))
+
+        # if the terminal code doesnt reset attributes, check what the code is and re-apply it
+        output.append(prev_term_code + line)
+
+
+    return output
 
 
 def _build_split_diff(lhs, rhs):
     width = 60
-
     lhs_repr, rhs_repr = lhs, rhs
-    if not isinstance(lhs, six.string_types):
-        lhs_repr = _pformat_no_color(lhs, width)
-    if not isinstance(rhs, six.string_types):
-        rhs_repr = _pformat_no_color(rhs, width)
+    if not isinstance(lhs, six.string_types) and not isinstance(rhs, six.string_types):
+        if len(repr(lhs)) > width or len(repr(rhs)) > width:
+            lhs_repr, rhs_repr = _pformat_no_color(lhs, 1), _pformat_no_color(rhs, 1)
+        else:
+            lhs_repr, rhs_repr = repr(lhs), repr(rhs)
 
     lhs_out, rhs_out = Color.stop, Color.stop
 
     matcher = difflib.SequenceMatcher(None, lhs_repr, rhs_repr)
     for op, i1, i2, j1, j2 in matcher.get_opcodes():
-        lhs_substring = lhs_repr[i1:i2]
-        rhs_substring = rhs_repr[j1:j2]
 
-        if op == 'replace':
-            lhs_out += _deleted_text(lhs_substring)
-            rhs_out += _inserted_text(rhs_substring)
-        elif op == 'delete':
-            lhs_out += _deleted_text(lhs_substring)
-        elif op == 'insert':
-            lhs_out += lhs_substring
-            rhs_out += _inserted_text(rhs_substring)
-        elif op == 'equal':
-            lhs_out += lhs_substring
-            rhs_out += rhs_substring
+        lhs_substring_lines = lhs_repr[i1:i2].splitlines()
+        rhs_substring_lines = rhs_repr[j1:j2].splitlines()
+
+        for i, lhs_substring in enumerate(lhs_substring_lines):
+            if op == 'replace':
+                lhs_out += _deleted_text(lhs_substring)
+            elif op == 'delete':
+                lhs_out += _deleted_text(lhs_substring)
+            elif op == 'insert':
+                lhs_out += Color.stop + lhs_substring
+            elif op == 'equal':
+                lhs_out += Color.stop + lhs_substring
+
+            if i != len(lhs_substring_lines) - 1:
+                lhs_out += '\n'
+
+        for j, rhs_substring in enumerate(rhs_substring_lines):
+            if op == 'replace':
+                rhs_out += _inserted_text(rhs_substring)
+            elif op == 'insert':
+                rhs_out += _inserted_text(rhs_substring)
+            elif op == 'equal':
+                rhs_out += Color.stop + rhs_substring
+
+            if j != len(rhs_substring_lines) - 1:
+                rhs_out += '\n'
 
     return lhs_out.splitlines(), rhs_out.splitlines()
 
@@ -165,9 +215,9 @@ def _hints_for(op, lhs, rhs):
 
             if lhs_auto_repr_diff and rhs_auto_repr_diff:
                 lhs_auto_repr_diff[0] = Color.stop + \
-                    _diff_intro_text(' ' * 4 + 'left attrs:  ') + lhs_auto_repr_diff[0]
+                                        _diff_intro_text(' ' * 4 + 'left attrs:  ') + lhs_auto_repr_diff[0]
                 rhs_auto_repr_diff[0] = Color.stop + \
-                    _diff_intro_text(' ' * 4 + 'right attrs: ') + rhs_auto_repr_diff[0]
+                                        _diff_intro_text(' ' * 4 + 'right attrs: ') + rhs_auto_repr_diff[0]
 
             hints.extend(lhs_auto_repr_diff)
             hints.extend(rhs_auto_repr_diff)
@@ -201,6 +251,9 @@ def pytest_assertrepr_compare(config, op, left, right):
     display_op = _display_op_for(op)
 
     lhs_diff, rhs_diff = _build_split_diff(left, right)
+
+    print(rhs_diff)
+
     output = [u('left {} right failed, where: ').format(display_op), '']
 
     if lhs_diff and rhs_diff:
