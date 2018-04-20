@@ -2,7 +2,7 @@ import difflib
 
 import six
 
-from terminal import Color, _deleted_text, _inserted_text, _pformat_no_color
+from pytest_betterdiff.terminal import Color, _deleted_text, _inserted_text, _pformat_no_color
 
 
 def build_split_diff(lhs, rhs):

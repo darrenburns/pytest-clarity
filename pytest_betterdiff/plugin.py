@@ -1,9 +1,9 @@
 from six import u
 
-from diff import build_split_diff
-from hints import _hints_for
-from terminal import Color, _diff_intro_text
-from util import _display_op_for
+from pytest_betterdiff.diff import build_split_diff
+from pytest_betterdiff.hints import _hints_for
+from pytest_betterdiff.terminal import Color, _diff_intro_text
+from pytest_betterdiff.util import display_op_for
 
 
 def pytest_addoption(parser):
@@ -16,7 +16,7 @@ def pytest_addoption(parser):
 
 
 def pytest_assertrepr_compare(config, op, left, right):
-    display_op = _display_op_for(op)
+    display_op = display_op_for(op)
 
     lhs_diff, rhs_diff = build_split_diff(left, right)
 

@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-
-import diff
-import util
-from terminal import Color, Hint, _diff_intro_text, _hint_text
-from util import has_overriden_repr, _possibly_missing_eq, _has_differing_len, _is_iterable
+from pytest_betterdiff.diff import build_split_diff
+from pytest_betterdiff.terminal import Color, Hint, _diff_intro_text, _hint_text
+from pytest_betterdiff.util import has_overriden_repr, _possibly_missing_eq, _has_differing_len, _is_iterable, auto_repr
 
 
 def _hints_for(op, lhs, rhs):
@@ -15,9 +13,9 @@ def _hints_for(op, lhs, rhs):
         if _possibly_missing_eq(lhs, rhs):
             hints.append(Hint.forgot_eq())
         if not has_overriden_repr(lhs) and not has_overriden_repr(rhs):
-            lhs_auto_repr, rhs_auto_repr = util.auto_repr(lhs), util.auto_repr(rhs)
+            lhs_auto_repr, rhs_auto_repr = auto_repr(lhs), auto_repr(rhs)
 
-            lhs_auto_repr_diff, rhs_auto_repr_diff = diff.build_split_diff(
+            lhs_auto_repr_diff, rhs_auto_repr_diff = build_split_diff(
                 lhs_auto_repr, rhs_auto_repr)
 
             hints.append(_hint_text('No __repr__ found, showing attribute value diff: '))

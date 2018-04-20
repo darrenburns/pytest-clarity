@@ -24,7 +24,7 @@ def auto_repr(item):
     return output + ')'
 
 
-def _display_op_for(pytest_op):
+def display_op_for(pytest_op):
     return '==' if pytest_op == 'equal' else pytest_op
 
 
