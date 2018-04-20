@@ -13,8 +13,6 @@ matrix:
         env: TOX_ENV=py35
       - python: 3.6
         env: TOX_ENV=py36
-      - python: pypy
-        env: TOX_ENV=pypy
 
 install:
   - pip install -r requirements.txt

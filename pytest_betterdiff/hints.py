@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from pytest_betterdiff.diff import build_split_diff
 from pytest_betterdiff.terminal import Color, Hint, _diff_intro_text, _hint_text
 from pytest_betterdiff.util import has_overriden_repr, _possibly_missing_eq, _has_differing_len, _is_iterable, auto_repr
