@@ -4,6 +4,8 @@ from functools import partial
 from six import u
 from termcolor import colored
 
+from pytest_betterdiff.util import ecu
+
 
 class Color(object):
     red = 'red'
@@ -69,4 +71,4 @@ def _hint_text(text):
 
 
 def _pformat_no_color(s, width):
-    return pprint.pformat(s, width=width)
+    return ecu(pprint.pformat(s, width=width))

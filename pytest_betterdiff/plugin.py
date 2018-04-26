@@ -1,9 +1,7 @@
-from six import u
-
 from pytest_betterdiff.diff import build_split_diff
 from pytest_betterdiff.hints import _hints_for
 from pytest_betterdiff.terminal import Color, _diff_intro_text
-from pytest_betterdiff.util import display_op_for
+from pytest_betterdiff.util import display_op_for, ecu
 
 
 def pytest_addoption(parser):
@@ -17,10 +15,10 @@ def pytest_addoption(parser):
 
 def pytest_assertrepr_compare(config, op, left, right):
     display_op = display_op_for(op)
-
+    print(left, right)
     lhs_diff, rhs_diff = build_split_diff(left, right)
 
-    output = [u('left {} right failed, where: ').format(display_op), '']
+    output = ['left {} right failed, where: '.format(display_op), '']
 
     if lhs_diff and rhs_diff:
         lhs_diff[0] = Color.stop + _diff_intro_text('left:  ') + lhs_diff[0]
@@ -31,4 +29,4 @@ def pytest_assertrepr_compare(config, op, left, right):
     if not config.getoption('--no-hints'):
         output += _hints_for(op, left, right)
 
-    return output
+    return [ecu(line) for line in output]

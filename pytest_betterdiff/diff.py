@@ -1,20 +1,18 @@
 import difflib
 
-import six
-
 from pytest_betterdiff.terminal import Color, _deleted_text, _inserted_text, _pformat_no_color
+from pytest_betterdiff.util import ecu, auto_repr
 
 
 def build_split_diff(lhs, rhs):
     width = 60
-    lhs_repr, rhs_repr = lhs, rhs
-    if not isinstance(lhs, six.string_types) and not isinstance(rhs, six.string_types):
-        if len(repr(lhs)) > width or len(repr(rhs)) > width:
-            lhs_repr, rhs_repr = _pformat_no_color(lhs, 1), _pformat_no_color(rhs, 1)
-        else:
-            lhs_repr, rhs_repr = repr(lhs), repr(rhs)
 
-    lhs_out, rhs_out = Color.stop, Color.stop
+    if len(repr(lhs)) > width or len(repr(rhs)) > width:
+        lhs_repr, rhs_repr = _pformat_no_color(lhs, 1), _pformat_no_color(rhs, 1)
+    else:
+        lhs_repr, rhs_repr = auto_repr(lhs), auto_repr(rhs)
+
+    lhs_out, rhs_out = ecu(Color.stop), ecu(Color.stop)
 
     matcher = difflib.SequenceMatcher(None, lhs_repr, rhs_repr)
     for op, i1, i2, j1, j2 in matcher.get_opcodes():
