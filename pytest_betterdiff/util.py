@@ -1,3 +1,4 @@
+import pprint
 from collections import Sized, Iterable
 
 import six
@@ -9,32 +10,6 @@ def ecu(s):
         return text_type(s, 'utf-8', 'replace')
     except TypeError:
         return s
-
-
-def auto_repr(item):
-    """
-    Recurse through an instance, constructing a string representation
-    :param item: any object
-    :return: a best guess string representation of the object
-    """
-    if isinstance(item, six.string_types):
-        return ecu('\'' + item + '\'')
-
-    if has_overriden_repr(item):
-        return ecu(repr(item))
-
-    output = type(item).__name__ + '('
-    try:
-        variables = vars(item).items()
-    except TypeError:
-        return ecu(repr(item))
-
-    for i, var in enumerate(variables):
-        output += var[0] + '=' + auto_repr(var[1])
-        if i != len(variables) - 1:
-            output += ', '
-
-    return ecu(output + ')')
 
 
 def display_op_for(pytest_op):
@@ -66,3 +41,9 @@ def has_differing_len(lhs, rhs):
 
 def is_iterable(x):
     return isinstance(x, Iterable)
+
+
+def pformat_no_color(s, width):
+    if isinstance(s, six.string_types):
+        return '"' + s + '"'
+    return pprint.pformat(s, width=width)
