@@ -10,8 +10,8 @@ pytest-chromadiff
     :target: https://pypi.org/project/pytest-chromadiff
     :alt: Python versions
 
-.. image:: https://travis-ci.org/darrenburns/pytest-chromadiff.svg?branch=master
-    :target: https://travis-ci.org/darrenburns/pytest-chromadiff
+.. image:: https://travis-ci.org/darrenburns/pytest-betterdiff.svg?branch=master
+    :target: https://travis-ci.org/darrenburns/pytest-betterdiff
     :alt: See Build Status on Travis CI
 
 
