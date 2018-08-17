@@ -2,7 +2,7 @@
 
 import pytest
 
-from pytest_betterdiff.util import (
+from pytest_chromadiff.util import (
     display_op_for,
     has_overriden_repr,
     has_differing_len,

@@ -1,17 +1,17 @@
 =================
-pytest-betterdiff
+pytest-chromadiff
 =================
 
-.. image:: https://img.shields.io/pypi/v/pytest-betterdiff.svg
-    :target: https://pypi.org/project/pytest-betterdiff
+.. image:: https://img.shields.io/pypi/v/pytest-chromadiff.svg
+    :target: https://pypi.org/project/pytest-chromadiff
     :alt: PyPI version
 
-.. image:: https://img.shields.io/pypi/pyversions/pytest-betterdiff.svg
-    :target: https://pypi.org/project/pytest-betterdiff
+.. image:: https://img.shields.io/pypi/pyversions/pytest-chromadiff.svg
+    :target: https://pypi.org/project/pytest-chromadiff
     :alt: Python versions
 
-.. image:: https://travis-ci.org/darrenburns/pytest-betterdiff.svg?branch=master
-    :target: https://travis-ci.org/darrenburns/pytest-betterdiff
+.. image:: https://travis-ci.org/darrenburns/pytest-chromadiff.svg?branch=master
+    :target: https://travis-ci.org/darrenburns/pytest-chromadiff
     :alt: See Build Status on Travis CI
 
 
@@ -23,8 +23,8 @@ Features
 * Enables an easier to parse and more understandable diff for your failing tests.
 * Adds hints to the output for failing tests to help you track down common issues.
 
-.. image:: https://raw.githubusercontent.com/darrenburns/pytest-betterdiff/master/sample_image.png
-    :alt: Example output with betterdiff
+.. image:: https://raw.githubusercontent.com/darrenburns/pytest-chromadiff/master/sample_image.png
+    :alt: Example output with chromadiff
 
 Requirements
 ------------
@@ -35,9 +35,9 @@ Supports Python 2.7.X, 3.4, 3.5, and 3.6. Untested on newer versions.
 Installation
 ------------
 
-You can install "pytest-betterdiff" via `pip`_ from `PyPI`_::
+You can install "pytest-chromadiff" via `pip`_ from `PyPI`_::
 
-    $ pip install pytest-betterdiff
+    $ pip install pytest-chromadiff
 
 
 Usage
@@ -66,7 +66,7 @@ the coverage at least stays the same before you submit a pull request.
 License
 -------
 
-Distributed under the terms of the `MIT`_ license, "pytest-betterdiff" is free and open source software
+Distributed under the terms of the `MIT`_ license, "pytest-chromadiff" is free and open source software
 
 
 Issues
@@ -84,7 +84,7 @@ This `pytest`_ plugin was generated with `Cookiecutter`_ along with `@hackebrot`
 .. _`GNU GPL v3.0`: http://www.gnu.org/licenses/gpl-3.0.txt
 .. _`Apache Software License 2.0`: http://www.apache.org/licenses/LICENSE-2.0
 .. _`cookiecutter-pytest-plugin`: https://github.com/pytest-dev/cookiecutter-pytest-plugin
-.. _`file an issue`: https://github.com/darrenburns/pytest-betterdiff/issues
+.. _`file an issue`: https://github.com/darrenburns/pytest-chromadiff/issues
 .. _`pytest`: https://github.com/pytest-dev/pytest
 .. _`tox`: https://tox.readthedocs.io/en/latest/
 .. _`pip`: https://pypi.org/project/pip/

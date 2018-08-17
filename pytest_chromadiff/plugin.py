@@ -1,7 +1,7 @@
-from pytest_betterdiff.diff import build_split_diff
-from pytest_betterdiff.hints import _hints_for
-from pytest_betterdiff.terminal import Color, diff_intro_text
-from pytest_betterdiff.util import display_op_for, ecu
+from pytest_chromadiff.diff import build_split_diff
+from pytest_chromadiff.hints import _hints_for
+from pytest_chromadiff.terminal import Color, diff_intro_text
+from pytest_chromadiff.util import display_op_for, ecu
 
 
 def pytest_addoption(parser):
@@ -9,7 +9,7 @@ def pytest_addoption(parser):
         '--no-hints',
         action='store_true',
         default=False,
-        help='disable pytest-betterdiff hints (boolean)',
+        help='disable pytest-chromadiff hints (boolean)',
     )
 
 

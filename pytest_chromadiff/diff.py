@@ -1,7 +1,7 @@
 import difflib
 
-from pytest_betterdiff.terminal import Color, deleted_text, inserted_text
-from pytest_betterdiff.util import pformat_no_color
+from pytest_chromadiff.terminal import Color, deleted_text, inserted_text
+from pytest_chromadiff.util import pformat_no_color
 
 
 def build_split_diff(lhs, rhs):

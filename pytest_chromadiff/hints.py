@@ -1,5 +1,5 @@
-from pytest_betterdiff.terminal import _hint_text
-from pytest_betterdiff.util import (
+from pytest_chromadiff.terminal import _hint_text
+from pytest_chromadiff.util import (
     has_overriden_repr,
     possibly_missing_eq,
     has_differing_len,

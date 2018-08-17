@@ -1,6 +1,6 @@
 # coding=utf-8
-from pytest_betterdiff.diff import build_split_diff
-from pytest_betterdiff.util import ecu
+from pytest_chromadiff.diff import build_split_diff
+from pytest_chromadiff.util import ecu
 
 
 def test_build_split_diff():

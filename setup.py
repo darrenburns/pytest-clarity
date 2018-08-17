@@ -12,17 +12,17 @@ def read(fname):
 
 
 setup(
-    name='pytest-betterdiff',
+    name='pytest-chromadiff',
     version='0.1.0',
     author='Darren Burns',
     author_email='darrenb900@gmail.com',
     maintainer='Darren Burns',
     maintainer_email='darrenb900@gmail.com',
     license='MIT',
-    url='https://github.com/darrenburns/pytest-betterdiff',
+    url='https://github.com/darrenburns/pytest-chromadiff',
     description='A plugin providing an alternative, colourful diff output for failing assertions.',
     long_description=read('README.rst'),
-    packages=['pytest_betterdiff'],
+    packages=['pytest_chromadiff'],
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     install_requires=['pytest>=3.5.0', 'termcolor==1.1.0'],
     classifiers=[
@@ -43,7 +43,7 @@ setup(
     ],
     entry_points={
         'pytest11': [
-            'betterdiff = pytest_betterdiff.plugin',
+            'chromadiff = pytest_chromadiff.plugin',
         ],
     },
 )
