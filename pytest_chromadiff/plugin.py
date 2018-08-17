@@ -1,5 +1,5 @@
 from pytest_chromadiff.diff import build_split_diff
-from pytest_chromadiff.hints import _hints_for
+from pytest_chromadiff.hints import hints_for
 from pytest_chromadiff.terminal import Color, diff_intro_text
 from pytest_chromadiff.util import display_op_for, ecu
 
@@ -26,6 +26,6 @@ def pytest_assertrepr_compare(config, op, left, right):
     output += lhs_diff + rhs_diff
 
     if not config.getoption('--no-hints'):
-        output += _hints_for(op, left, right)
+        output += hints_for(op, left, right)
 
     return [ecu(line) for line in output]

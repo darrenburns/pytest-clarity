@@ -16,10 +16,6 @@ def display_op_for(pytest_op):
     return '==' if pytest_op == 'equal' else pytest_op
 
 
-def has_overriden_repr(item):
-    return type(item).__repr__ is not object.__repr__
-
-
 def possibly_missing_eq(lhs, rhs):
     try:
         left_dict, right_dict = vars(lhs), vars(rhs)

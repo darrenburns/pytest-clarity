@@ -4,7 +4,6 @@ import pytest
 
 from pytest_chromadiff.util import (
     display_op_for,
-    has_overriden_repr,
     has_differing_len,
     pformat_no_color,
 )
@@ -27,12 +26,6 @@ class BiArg(object):
 @pytest.mark.parametrize('arg, result', [('equal', '=='), ('not in', 'not in')])
 def test_display_op_for(arg, result):
     assert display_op_for(arg) == result
-
-
-@pytest.mark.parametrize('arg, result', [(SingleArg(1), False),
-                                         (BiArg(1, 2), True)])
-def test_has_overriden_repr(arg, result):
-    assert has_overriden_repr(arg) == result
 
 
 @pytest.mark.parametrize('lhs, rhs, is_diff_len',
