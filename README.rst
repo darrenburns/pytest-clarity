@@ -29,7 +29,7 @@ Features
 Requirements
 ------------
 
-Supports Python 2.7.X, 3.4, 3.5, and 3.6. Untested on newer versions.
+Supports Python 2.7 and 3.4+. Untested on newer versions.
 
 
 Installation
@@ -57,6 +57,18 @@ You can disable hints using the :code:`--no-hints` flag:
 
     pytest -vv --no-hints
 
+You can configure the width of the output with the :code:`--diff-width` option:
+
+::
+
+    pytest -vv --diff-width=60
+
+Enable background colours for the diff with the :code:`--diff-bg` flag (purely aesthetic, but you may need
+to tweak your terminal colour settings to get legible output):
+
+::
+
+    pytest-vv --diff-bg
 
 Contributing
 ------------

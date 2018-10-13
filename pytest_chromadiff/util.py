@@ -1,19 +1,18 @@
 import pprint
-from collections import Sized, Iterable
 
 import six
 from six import text_type
 
 
-def ecu(s):
+def utf8_replace(s):
     try:
-        return text_type(s, 'utf-8', 'replace')
+        return text_type(s, "utf-8", "replace")
     except TypeError:
         return s
 
 
 def display_op_for(pytest_op):
-    return '==' if pytest_op == 'equal' else pytest_op
+    return "==" if pytest_op == "equal" else pytest_op
 
 
 def possibly_missing_eq(lhs, rhs):
@@ -22,21 +21,14 @@ def possibly_missing_eq(lhs, rhs):
     except TypeError:
         return False
 
-    return all([
-        isinstance(lhs, type(rhs)),
-        lhs != rhs,
-        left_dict == right_dict,
-    ])
+    return isinstance(lhs, type(rhs)) and lhs != rhs and left_dict == right_dict
 
 
 def has_differing_len(lhs, rhs):
-    if isinstance(lhs, Sized) and isinstance(rhs, Sized):
+    try:
         return len(lhs) != len(rhs)
-    return False
-
-
-def is_iterable(x):
-    return isinstance(x, Iterable)
+    except TypeError:
+        return False
 
 
 def pformat_no_color(s, width):
