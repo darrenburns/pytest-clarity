@@ -15,9 +15,9 @@ def build_split_diff(lhs_repr, rhs_repr, show_bg):
 
         for i, lhs_substring in enumerate(lhs_substring_lines):
             if op == "replace":
-                lhs_out += inserted_text(lhs_substring, on_color=inserted_bg)
+                lhs_out += inserted_text(lhs_substring)
             elif op == "delete":
-                lhs_out += inserted_text(lhs_substring, on_color=inserted_bg)
+                lhs_out += inserted_text(lhs_substring)
             elif op == "insert":
                 lhs_out += Colour.stop + lhs_substring
             elif op == "equal":
@@ -40,7 +40,7 @@ def build_split_diff(lhs_repr, rhs_repr, show_bg):
     return lhs_out.splitlines(), rhs_out.splitlines()
 
 
-def build_split_line_centric_diff(lhs_repr, rhs_repr):
+def build_unified_diff(lhs_repr, rhs_repr):
     differ = difflib.Differ()
     lines_lhs, lines_rhs = lhs_repr.splitlines(), rhs_repr.splitlines()
     diff = differ.compare(lines_lhs, lines_rhs)
@@ -50,9 +50,9 @@ def build_split_line_centric_diff(lhs_repr, rhs_repr):
         # Differ instructs us how to transform left into right, but we want
         # our colours to indicate how to transform right into left, so swap the signs
         if line.startswith("- "):
-            output.append(inserted_text(" + " + line[2:]))
+            output.append(inserted_text(" L " + line[2:]))
         elif line.startswith("+ "):
-            output.append(deleted_text(" - " + line[2:]))
+            output.append(deleted_text(" R " + line[2:]))
         elif line.startswith("? "):
             # We can use this to find the index of change in the
             # line above if required in the future

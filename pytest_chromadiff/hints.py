@@ -1,7 +1,6 @@
 from collections import Sequence
 
 from pytest_chromadiff.output import (
-    BgColour,
     deleted_text,
     hint_body_text,
     hint_text,
@@ -41,16 +40,16 @@ def hints_for(op, lhs, rhs):
             lhs, rhs = lhs.items(), rhs.items()
 
         if both_sequences or both_dicts:
-            num_extras, lines = find_extras(lhs, rhs, inserted_text, BgColour.green, "+")
+            num_extras, lines = find_extras(lhs, rhs, inserted_text, "+")
             hints += [hint_text("{} items in left, but not right:".format(num_extras))] + lines
 
-            num_extras, lines = find_extras(rhs, lhs, deleted_text, BgColour.red, "-")
+            num_extras, lines = find_extras(rhs, lhs, deleted_text, "-")
             hints += [hint_text("{} items in right, but not left:".format(num_extras))] + lines
 
     return hints
 
 
-def find_extras(lhs, rhs, text_fn, gutter_colour, item_marker):
+def find_extras(lhs, rhs, text_fn, item_marker):
     lhs_extras_lines = []
     num_extras = 0
     for item in lhs:

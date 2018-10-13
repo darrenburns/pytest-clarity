@@ -1,6 +1,6 @@
-from pytest_chromadiff.diff import build_split_diff, build_split_line_centric_diff
+from pytest_chromadiff.diff import build_split_diff, build_unified_diff
 from pytest_chromadiff.hints import hints_for
-from pytest_chromadiff.output import Colour, diff_intro_text
+from pytest_chromadiff.output import Colour, diff_intro_text, header_text
 from pytest_chromadiff.util import display_op_for, pformat_no_color, utf8_replace
 
 
@@ -35,7 +35,7 @@ def pytest_addoption(parser):
 
 
 def pytest_assertrepr_compare(config, op, left, right):
-    display_op = display_op_for(op)
+    op = display_op_for(op)
 
     width = int(config.getoption("--diff-width"))
     show_bg = config.getoption("--diff-bg")
@@ -44,29 +44,41 @@ def pytest_assertrepr_compare(config, op, left, right):
     lhs_repr = pformat_no_color(utf8_replace(left), width)
     rhs_repr = pformat_no_color(utf8_replace(right), width)
 
-    output = []
-
-    # Determine whether to show a split or unified diff
-    if diff_type == "auto":
+    if diff_type == "split":
+        output = build_full_splitdiff_output(lhs_repr, rhs_repr, op, show_bg)
+    elif diff_type == "unified":
+        output = build_full_unidiff_output(lhs_repr, rhs_repr, op)
+    else:  # assume diff_type == "auto" so decide based on newlines
         if "\n" in lhs_repr and "\n" in rhs_repr:
-            # In the case where both reprs are mutliple lines, we'll
-            # use a line based diff rather than a character based one,
-            # and present it as a unified diff.
-            output += ["left {} right failed, showing unified diff:".format(display_op), ""]
-            output += build_split_line_centric_diff(lhs_repr, rhs_repr)
-
-    elif diff_type == "split":
-        lhs_diff, rhs_diff = build_split_diff(lhs_repr, rhs_repr, show_bg)
-
-        output += ["left {} right failed, where:".format(display_op), ""]
-
-        if lhs_diff and rhs_diff:
-            lhs_diff[0] = Colour.stop + diff_intro_text("left:  ") + lhs_diff[0]
-            rhs_diff[0] = Colour.stop + diff_intro_text("right: ") + rhs_diff[0]
-
-        output += lhs_diff + rhs_diff
+            output = build_full_unidiff_output(lhs_repr, rhs_repr, op)
+        else:
+            output = build_full_splitdiff_output(lhs_repr, rhs_repr, op, show_bg)
 
     if not config.getoption("--no-hints"):
         output += hints_for(op, left, right)
 
     return [utf8_replace(line) for line in output]
+
+
+def build_full_unidiff_output(lhs_repr, rhs_repr, op):
+    return [
+               "left {} right failed, showing unified diff:".format(op),
+               "",
+               header_text("Unified Diff (L=left, R=right)"),
+               "",
+           ] + build_unified_diff(lhs_repr, rhs_repr)
+
+
+def build_full_splitdiff_output(lhs_repr, rhs_repr, op, show_bg):
+    output = []
+    lhs_diff, rhs_diff = build_split_diff(lhs_repr, rhs_repr, show_bg)
+    output += ["left {} right failed, showing split diff:".format(op),
+               "",
+               header_text("Split Diff"),
+               "",
+               ]
+    if lhs_diff and rhs_diff:
+        lhs_diff[0] = Colour.stop + diff_intro_text("left:  ") + lhs_diff[0]
+        rhs_diff[0] = Colour.stop + diff_intro_text("right: ") + rhs_diff[0]
+    output += lhs_diff + [""] + rhs_diff
+    return output
