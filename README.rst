@@ -63,12 +63,6 @@ You can configure the width of the output with the :code:`--diff-width` option:
 
     pytest -vv --diff-width=60
 
-Enable background colours for the diff with the :code:`--diff-bg` flag (purely aesthetic, but you may need
-to tweak your terminal colour settings to get legible output):
-
-::
-
-    pytest-vv --diff-bg
 
 Contributing
 ------------
