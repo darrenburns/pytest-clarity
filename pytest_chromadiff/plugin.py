@@ -38,21 +38,20 @@ def pytest_assertrepr_compare(config, op, left, right):
     op = display_op_for(op)
 
     width = int(config.getoption("--diff-width"))
-    show_bg = config.getoption("--diff-bg")
     diff_type = config.getoption("--diff-type")
 
     lhs_repr = pformat_no_color(utf8_replace(left), width)
     rhs_repr = pformat_no_color(utf8_replace(right), width)
 
     if diff_type == "split":
-        output = build_full_splitdiff_output(lhs_repr, rhs_repr, op, show_bg)
+        output = build_full_splitdiff_output(lhs_repr, rhs_repr, op)
     elif diff_type == "unified":
         output = build_full_unidiff_output(lhs_repr, rhs_repr, op)
     else:  # assume diff_type == "auto" so decide based on newlines
         if "\n" in lhs_repr and "\n" in rhs_repr:
             output = build_full_unidiff_output(lhs_repr, rhs_repr, op)
         else:
-            output = build_full_splitdiff_output(lhs_repr, rhs_repr, op, show_bg)
+            output = build_full_splitdiff_output(lhs_repr, rhs_repr, op)
 
     if not config.getoption("--no-hints"):
         output += hints_for(op, left, right)
@@ -69,9 +68,9 @@ def build_full_unidiff_output(lhs_repr, rhs_repr, op):
            ] + build_unified_diff(lhs_repr, rhs_repr)
 
 
-def build_full_splitdiff_output(lhs_repr, rhs_repr, op, show_bg):
+def build_full_splitdiff_output(lhs_repr, rhs_repr, op):
     output = []
-    lhs_diff, rhs_diff = build_split_diff(lhs_repr, rhs_repr, show_bg)
+    lhs_diff, rhs_diff = build_split_diff(lhs_repr, rhs_repr)
     output += ["left {} right failed, showing split diff:".format(op),
                "",
                header_text("Split Diff"),

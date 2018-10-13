@@ -1,10 +1,9 @@
 import difflib
 
-from pytest_chromadiff.output import BgColour, Colour, deleted_text, inserted_text, non_formatted
+from pytest_chromadiff.output import Colour, deleted_text, inserted_text, non_formatted
 
 
-def build_split_diff(lhs_repr, rhs_repr, show_bg):
-    inserted_bg, deleted_bg = BgColour.green, BgColour.red if show_bg else None
+def build_split_diff(lhs_repr, rhs_repr):
     lhs_out, rhs_out = "", ""
 
     matcher = difflib.SequenceMatcher(None, lhs_repr, rhs_repr)
@@ -28,9 +27,9 @@ def build_split_diff(lhs_repr, rhs_repr, show_bg):
 
         for j, rhs_substring in enumerate(rhs_substring_lines):
             if op == "replace":
-                rhs_out += deleted_text(rhs_substring, on_color=deleted_bg)
+                rhs_out += deleted_text(rhs_substring)
             elif op == "insert":
-                rhs_out += deleted_text(rhs_substring, on_color=deleted_bg)
+                rhs_out += deleted_text(rhs_substring)
             elif op == "equal":
                 rhs_out += Colour.stop + rhs_substring
 

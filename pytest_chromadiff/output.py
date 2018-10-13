@@ -25,6 +25,7 @@ diff_intro_text = partial(colored, color=Colour.cyan, attrs=[Attr.bold])
 inserted_text = partial(colored, color=Colour.green, attrs=[Attr.bold])
 header_text = partial(colored, color=Colour.yellow, attrs=[Attr.bold])
 
+
 def non_formatted(text):
     return Colour.stop + text
 
