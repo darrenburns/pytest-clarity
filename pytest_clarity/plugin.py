@@ -2,7 +2,7 @@ import sys
 
 from pytest_clarity.diff import build_split_diff, build_unified_diff
 from pytest_clarity.hints import hints_for
-from pytest_clarity.output import Colour, diff_intro_text, header_text
+from pytest_clarity.output import Colour, deleted_text, diff_intro_text, inserted_text
 from pytest_clarity.util import display_op_for, pformat_no_color, utf8_replace
 
 
@@ -68,24 +68,24 @@ def pytest_assertrepr_compare(config, op, left, right):
 
 
 def build_full_unidiff_output(lhs_repr, rhs_repr, op):
+    left_key = inserted_text("L=left")
+    right_key = deleted_text("R=right")
     return [
-               "left {} right failed, showing unified diff:".format(op),
-               "",
-               header_text("Unified Diff (L=left, R=right)"),
-               "",
-           ] + build_unified_diff(lhs_repr, rhs_repr)
+        "left {} right failed. ".format(op),
+        "{}Showing unified diff ({}, {}):".format(Colour.stop, left_key, right_key),
+        "",
+    ] + build_unified_diff(lhs_repr, rhs_repr)
 
 
 def build_full_splitdiff_output(lhs_repr, rhs_repr, op):
-    output = []
     lhs_diff, rhs_diff = build_split_diff(lhs_repr, rhs_repr)
-    output += ["left {} right failed, showing split diff:".format(op),
-               "",
-               header_text("Split Diff"),
-               "",
-               ]
+    output = [
+        "left {} right failed.".format(op),
+        "{}Showing split diff:".format(Colour.stop),
+        "",
+    ]
     if lhs_diff and rhs_diff:
         lhs_diff[0] = Colour.stop + diff_intro_text("left:  ") + lhs_diff[0]
         rhs_diff[0] = Colour.stop + diff_intro_text("right: ") + rhs_diff[0]
-    output += lhs_diff + [""] + rhs_diff
+    output += lhs_diff + rhs_diff
     return output

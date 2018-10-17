@@ -32,9 +32,9 @@ def non_formatted(text):
 
 def hint_text(text):
     bold_cyan = colored(text, color=Colour.cyan, attrs=[Attr.bold])
-    return Colour.stop + bold_cyan
+    return bold_cyan
 
 
 def hint_body_text(text):
-    bold_red = colored(text, color=Colour.red, attrs=[Attr.bold])
-    return Colour.stop + bold_red
+    bold_red = colored(Colour.stop + text, color=Colour.red, attrs=[Attr.bold])
+    return bold_red

@@ -11,6 +11,10 @@ def utf8_replace(s):
         return s
 
 
+def direct_type_mismatch(lhs, rhs):
+    return type(lhs) is not type(rhs)
+
+
 def display_op_for(pytest_op):
     return "==" if pytest_op == "equal" else pytest_op
 
@@ -18,10 +22,9 @@ def display_op_for(pytest_op):
 def possibly_missing_eq(lhs, rhs):
     try:
         left_dict, right_dict = vars(lhs), vars(rhs)
+        return isinstance(lhs, type(rhs)) and lhs != rhs and left_dict == right_dict
     except TypeError:
         return False
-
-    return isinstance(lhs, type(rhs)) and lhs != rhs and left_dict == right_dict
 
 
 def has_differing_len(lhs, rhs):

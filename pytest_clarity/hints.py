@@ -1,19 +1,12 @@
 from collections import Sequence
 
-from pytest_clarity.output import (
-    deleted_text,
-    hint_body_text,
-    hint_text,
-    inserted_text,
+from pytest_clarity.output import deleted_text, hint_body_text, hint_text, inserted_text
+from pytest_clarity.util import (
+    direct_type_mismatch,
+    has_differing_len,
+    pformat_no_color,
+    possibly_missing_eq,
 )
-from pytest_clarity.util import has_differing_len, pformat_no_color, possibly_missing_eq
-
-
-def _different_types(lhs, rhs):
-    return hint_text(
-        "left and right have different types"
-        "type(left) == {}, type(right) == {}".format(type(lhs), type(rhs))
-    )
 
 
 def hints_for(op, lhs, rhs):
@@ -21,16 +14,28 @@ def hints_for(op, lhs, rhs):
 
     if op == "==":
 
+        if direct_type_mismatch(lhs, rhs):
+            lhs_type, rhs_type = inserted_text(type(lhs)), deleted_text(type(rhs))
+            hints += [
+                hint_text("left and right are different types:"),
+                hint_body_text(
+                    "  type(left) is {}, type(right) is {}".format(lhs_type, rhs_type)
+                ),
+            ]
+
         if has_differing_len(lhs, rhs):
+            lhs_len, rhs_len = inserted_text(len(lhs)), deleted_text(len(rhs))
             hints += [
                 hint_text("left and right have different lengths:"),
-                hint_body_text("  len(left) == {}, len(right) == {}".format(len(lhs), len(rhs))),
+                hint_body_text(
+                    "  len(left) == {}, len(right) == {}".format(lhs_len, rhs_len)
+                ),
             ]
 
         if possibly_missing_eq(lhs, rhs):
             hints += [
                 hint_text("left and right are equal in data and in type: "),
-                hint_body_text("perhaps you forgot to implement __eq__ and __ne__?"),
+                hint_body_text("  perhaps you forgot to implement __eq__ and __ne__?"),
             ]
 
         both_sequences = isinstance(lhs, Sequence) and isinstance(rhs, Sequence)
@@ -41,10 +46,14 @@ def hints_for(op, lhs, rhs):
 
         if both_sequences or both_dicts:
             num_extras, lines = find_extras(lhs, rhs, inserted_text, "+")
-            hints += [hint_text("{} items in left, but not right:".format(num_extras))] + lines
+            hints += [
+                         hint_text("{} items in left, but not right:".format(num_extras))
+                     ] + lines
 
             num_extras, lines = find_extras(rhs, lhs, deleted_text, "-")
-            hints += [hint_text("{} items in right, but not left:".format(num_extras))] + lines
+            hints += [
+                         hint_text("{} items in right, but not left:".format(num_extras))
+                     ] + lines
 
     return hints
 
