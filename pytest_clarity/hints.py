@@ -1,12 +1,12 @@
 from collections import Sequence
 
-from pytest_chromadiff.output import (
+from pytest_clarity.output import (
     deleted_text,
     hint_body_text,
     hint_text,
     inserted_text,
 )
-from pytest_chromadiff.util import has_differing_len, pformat_no_color, possibly_missing_eq
+from pytest_clarity.util import has_differing_len, pformat_no_color, possibly_missing_eq
 
 
 def _different_types(lhs, rhs):

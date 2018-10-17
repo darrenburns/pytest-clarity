@@ -1,6 +1,6 @@
 import difflib
 
-from pytest_chromadiff.output import Colour, deleted_text, inserted_text, non_formatted
+from pytest_clarity.output import Colour, deleted_text, inserted_text, non_formatted
 
 
 def build_split_diff(lhs_repr, rhs_repr):

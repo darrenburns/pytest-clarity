@@ -1,7 +1,7 @@
-from pytest_chromadiff.diff import build_split_diff, build_unified_diff
-from pytest_chromadiff.hints import hints_for
-from pytest_chromadiff.output import Colour, diff_intro_text, header_text
-from pytest_chromadiff.util import display_op_for, pformat_no_color, utf8_replace
+from pytest_clarity.diff import build_split_diff, build_unified_diff
+from pytest_clarity.hints import hints_for
+from pytest_clarity.output import Colour, diff_intro_text, header_text
+from pytest_clarity.util import display_op_for, pformat_no_color, utf8_replace
 
 
 def pytest_addoption(parser):
@@ -9,28 +9,28 @@ def pytest_addoption(parser):
         "--no-hints",
         action="store_true",
         default=False,
-        help="pytest-chromadiff: disable hints (boolean)",
+        help="pytest-clarity: disable hints (boolean)",
     )
 
     parser.addoption(
         "--diff-width",
         action="store",
         default="80",
-        help="pytest-chromadiff: configure output width",
+        help="pytest-clarity: configure output width",
     )
 
     parser.addoption(
         "--diff-bg",
         action="store_true",
         default=False,
-        help="pytest-chromadiff: use background colours on diff output",
+        help="pytest-clarity: use background colours on diff output",
     )
 
     parser.addoption(
         "--diff-type",
         action="store",
         default="auto",
-        help="pytest-chromadiff: default auto. one of [auto, unified, split]",
+        help="pytest-clarity: default auto. one of [auto, unified, split]",
     )
 
 

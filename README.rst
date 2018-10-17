@@ -1,21 +1,20 @@
 =================
-pytest-chromadiff
+pytest-clarity
 =================
 
-.. image:: https://img.shields.io/pypi/v/pytest-chromadiff.svg
-    :target: https://pypi.org/project/pytest-chromadiff
+.. image:: https://img.shields.io/pypi/v/pytest-clarity.svg
+    :target: https://pypi.org/project/pytest-clarity
     :alt: PyPI version
 
-.. image:: https://img.shields.io/pypi/pyversions/pytest-chromadiff.svg
-    :target: https://pypi.org/project/pytest-chromadiff
+.. image:: https://img.shields.io/pypi/pyversions/pytest-clarity.svg
+    :target: https://pypi.org/project/pytest-clarity
     :alt: Python versions
 
 .. image:: https://travis-ci.org/darrenburns/pytest-betterdiff.svg?branch=master
     :target: https://travis-ci.org/darrenburns/pytest-betterdiff
     :alt: See Build Status on Travis CI
 
-
-A plugin providing an alternative, colourful, ExUnit inspired diff output for failing assertions.
+A plugin to improve the readability of pytest output.
 
 Features
 --------
@@ -23,21 +22,21 @@ Features
 * Enables an easier to parse and more understandable diff for your failing tests.
 * Adds hints to the output for failing tests to help you track down common issues.
 
-.. image:: https://raw.githubusercontent.com/darrenburns/pytest-chromadiff/master/sample_image.png
-    :alt: Example output with chromadiff
+.. image:: https://raw.githubusercontent.com/darrenburns/pytest-clarity/master/sample_image.png
+    :alt: Example output with clarity
 
 Requirements
 ------------
 
-Supports Python 2.7 and 3.4+. Untested on newer versions.
+Supports Python 2.7 and 3.4+
 
 
 Installation
 ------------
 
-You can install "pytest-chromadiff" via `pip`_ from `PyPI`_::
+You can install "pytest-clarity" via `pip`_ from `PyPI`_::
 
-    $ pip install pytest-chromadiff
+    $ pip install pytest-clarity
 
 
 Usage
@@ -72,7 +71,7 @@ the coverage at least stays the same before you submit a pull request.
 License
 -------
 
-Distributed under the terms of the `MIT`_ license, "pytest-chromadiff" is free and open source software
+Distributed under the terms of the `MIT`_ license, "pytest-clarity" is free and open source software
 
 
 Issues
@@ -90,7 +89,7 @@ This `pytest`_ plugin was generated with `Cookiecutter`_ along with `@hackebrot`
 .. _`GNU GPL v3.0`: http://www.gnu.org/licenses/gpl-3.0.txt
 .. _`Apache Software License 2.0`: http://www.apache.org/licenses/LICENSE-2.0
 .. _`cookiecutter-pytest-plugin`: https://github.com/pytest-dev/cookiecutter-pytest-plugin
-.. _`file an issue`: https://github.com/darrenburns/pytest-chromadiff/issues
+.. _`file an issue`: https://github.com/darrenburns/pytest-clarity/issues
 .. _`pytest`: https://github.com/pytest-dev/pytest
 .. _`tox`: https://tox.readthedocs.io/en/latest/
 .. _`pip`: https://pypi.org/project/pip/

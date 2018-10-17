@@ -2,7 +2,7 @@
 
 import pytest
 
-from pytest_chromadiff.util import display_op_for, has_differing_len, pformat_no_color
+from pytest_clarity.util import display_op_for, has_differing_len, pformat_no_color
 
 
 class SingleArg(object):

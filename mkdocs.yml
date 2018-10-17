@@ -1,10 +1,10 @@
-site_name: pytest-chromadiff
+site_name: pytest-clarity
 site_description: A plugin providing an alternative, colourful, ExUnit inspired diff output for failing assertions.
 site_author: Darren Burns
 
 theme: readthedocs
 
-repo_url: https://github.com/darrenburns/pytest-chromadiff
+repo_url: https://github.com/darrenburns/pytest-clarity
 
 pages:
 - Home: index.md
