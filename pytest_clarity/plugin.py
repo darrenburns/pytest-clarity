@@ -1,7 +1,15 @@
+import sys
+
 from pytest_clarity.diff import build_split_diff, build_unified_diff
 from pytest_clarity.hints import hints_for
 from pytest_clarity.output import Colour, diff_intro_text, header_text
 from pytest_clarity.util import display_op_for, pformat_no_color, utf8_replace
+
+
+def pytest_load_initial_conftests(args):
+    # Force verbose logging to prevent pytest truncating output
+    if "pytest_clarity" in sys.modules:
+        args[:] = ["-vv"] + args
 
 
 def pytest_addoption(parser):

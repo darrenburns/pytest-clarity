@@ -47,7 +47,7 @@ def build_unified_diff(lhs_repr, rhs_repr):
     output = []
     for line in diff:
         # Differ instructs us how to transform left into right, but we want
-        # our colours to indicate how to transform right into left, so swap the signs
+        # our colours to indicate how to transform right into left
         if line.startswith("- "):
             output.append(inserted_text(" L " + line[2:]))
         elif line.startswith("+ "):
