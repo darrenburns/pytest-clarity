@@ -10,8 +10,8 @@ pytest-clarity
     :target: https://pypi.org/project/pytest-clarity
     :alt: Python versions
 
-.. image:: https://travis-ci.org/darrenburns/pytest-betterdiff.svg?branch=master
-    :target: https://travis-ci.org/darrenburns/pytest-betterdiff
+.. image:: https://travis-ci.org/darrenburns/pytest-clarity.svg?branch=master
+    :target: https://travis-ci.org/darrenburns/pytest-clarity
     :alt: See Build Status on Travis CI
 
 A plugin to improve the readability of pytest output.
