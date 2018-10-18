@@ -20,7 +20,7 @@ Features
 --------
 
 * Enables an easier to parse and more understandable diff for your failing tests.
-* Can display unified diffs or split diffs, and chooses them depending on the context
+* Can display unified diffs or split diffs, and chooses them depending on the context.
 * Adds helpful hints to the output for failing tests to help you track down common issues.
 
 With `pytest-clarity`:
@@ -51,7 +51,7 @@ You can install "pytest-clarity" via `pip`_ from `PyPI`_::
 Usage
 -----
 
-Install the plugin as described above, and it will automatically enabled.
+Install the plugin as described above, and it will be automatically enabled.
 
 You can disable hints using the :code:`--no-hints` flag:
 
@@ -74,7 +74,7 @@ the coverage at least stays the same before you submit a pull request.
 License
 -------
 
-Distributed under the terms of the `MIT`_ license, "pytest-clarity" is free and open source software
+Distributed under the terms of the `MIT`_ license, "pytest-clarity" is free and open source software.
 
 
 Issues
