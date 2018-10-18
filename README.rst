@@ -44,23 +44,17 @@ Usage
 
 Install the plugin as described above, and it will automatically enabled.
 
-You may need to use the :code:`-vv` pytest flag to display the full output in larger diffs:
-
-::
-
-    pytest -vv
-
 You can disable hints using the :code:`--no-hints` flag:
 
 ::
 
-    pytest -vv --no-hints
+    pytest --no-hints
 
 You can configure the width of the output with the :code:`--diff-width` option:
 
 ::
 
-    pytest -vv --diff-width=60
+    pytest --diff-width=60
 
 
 Contributing
