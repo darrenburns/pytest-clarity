@@ -22,7 +22,7 @@ def display_op_for(pytest_op):
 def possibly_missing_eq(lhs, rhs):
     try:
         left_dict, right_dict = vars(lhs), vars(rhs)
-        return isinstance(lhs, type(rhs)) and lhs != rhs and left_dict == right_dict
+        return (type(lhs) is type(rhs)) and lhs != rhs and left_dict == right_dict
     except TypeError:
         return False
 
