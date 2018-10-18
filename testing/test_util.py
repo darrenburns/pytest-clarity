@@ -2,7 +2,12 @@
 
 import pytest
 
-from pytest_clarity.util import display_op_for, has_differing_len, pformat_no_color
+from pytest_clarity.util import (
+    display_op_for,
+    has_differing_len,
+    pformat_no_color,
+    possibly_missing_eq,
+)
 
 
 class SingleArg(object):
@@ -46,3 +51,13 @@ def test_has_differing_len(lhs, rhs, is_diff_len):
 @pytest.mark.parametrize("arg, result", [("s", '"s"'), ([1], "[1]"), (["1"], "['1']")])
 def test_pformat_no_color(arg, result):
     assert pformat_no_color(arg, 60) == result
+
+
+def test_possibly_missing_eq_false_with_subclass():
+    class Thing:
+        a = 1
+
+    class SubThing(Thing):
+        pass
+
+    assert not possibly_missing_eq(Thing(), SubThing())
