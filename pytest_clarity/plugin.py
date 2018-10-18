@@ -28,13 +28,6 @@ def pytest_addoption(parser):
     )
 
     parser.addoption(
-        "--diff-bg",
-        action="store_true",
-        default=False,
-        help="pytest-clarity: use background colours on diff output",
-    )
-
-    parser.addoption(
         "--diff-type",
         action="store",
         default="auto",
