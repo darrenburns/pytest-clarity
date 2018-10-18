@@ -22,8 +22,15 @@ Features
 * Enables an easier to parse and more understandable diff for your failing tests.
 * Adds hints to the output for failing tests to help you track down common issues.
 
+With `pytest-clarity`:
+
 .. image:: https://raw.githubusercontent.com/darrenburns/pytest-clarity/master/pytest-clarity.png
     :alt: Example output with clarity
+
+Without `pytest-clarity`
+
+.. image:: https://raw.githubusercontent.com/darrenburns/pytest-clarity/master/without-clarity.png
+    :alt: Example output without clarity
 
 Requirements
 ------------
