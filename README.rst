@@ -53,6 +53,12 @@ Usage
 
 Install the plugin as described above, and it will automatically enabled.
 
+You can choose which type of diff you want with :code:`--diff-type` (`auto` (default), `split` or `unified`):
+
+::
+
+    pytest --diff-type=split
+
 You can disable hints using the :code:`--no-hints` flag:
 
 ::
