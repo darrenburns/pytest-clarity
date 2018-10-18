@@ -54,7 +54,7 @@ def test_pformat_no_color(arg, result):
 
 
 def test_possibly_missing_eq_false_with_subclass():
-    class Thing:
+    class Thing(object):
         a = 1
 
     class SubThing(Thing):
