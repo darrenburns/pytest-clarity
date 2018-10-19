@@ -5,6 +5,10 @@ pytest-clarity
 .. image:: https://img.shields.io/pypi/v/pytest-clarity.svg
     :target: https://pypi.org/project/pytest-clarity
     :alt: PyPI version
+    
+.. image:: https://img.shields.io/conda/vn/conda-forge/pytest-clarity.svg
+    :target: https://anaconda.org/conda-forge/pytest-clarity
+    :alt: conda-forge version    
 
 .. image:: https://img.shields.io/pypi/pyversions/pytest-clarity.svg
     :target: https://pypi.org/project/pytest-clarity
