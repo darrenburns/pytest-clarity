@@ -6,12 +6,6 @@ from pytest_clarity.output import Colour, deleted_text, diff_intro_text, inserte
 from pytest_clarity.util import display_op_for, pformat_no_color, utf8_replace
 
 
-def pytest_load_initial_conftests(args):
-    # Force verbose logging to prevent pytest truncating output
-    if "pytest_clarity" in sys.modules:
-        args[:] = ["-vv"] + args
-
-
 def pytest_addoption(parser):
     parser.addoption(
         "--no-hints",
@@ -36,6 +30,9 @@ def pytest_addoption(parser):
 
 
 def pytest_assertrepr_compare(config, op, left, right):
+    if config.getoption('-v') < 2:
+        return
+
     op = display_op_for(op)
 
     width = int(config.getoption("--diff-width"))

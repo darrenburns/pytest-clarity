@@ -55,25 +55,27 @@ You can install "pytest-clarity" via `pip`_ from `PyPI`_::
 Usage
 -----
 
-Install the plugin as described above, and it will be automatically enabled.
+Install the plugin as described above.
+
+** The plugin will only be activated when the `-vv` option is supplied to `pytest`.**
 
 You can choose which type of diff you want with :code:`--diff-type` (`auto` (default), `split` or `unified`):
 
 ::
 
-    pytest --diff-type=split
+    pytest -vv --diff-type=split
 
 You can disable hints using the :code:`--no-hints` flag:
 
 ::
 
-    pytest --no-hints
+    pytest -vv --no-hints
 
 You can configure the width of the output with the :code:`--diff-width` option:
 
 ::
 
-    pytest --diff-width=60
+    pytest -vv --diff-width=60
 
 
 Contributing
