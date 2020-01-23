@@ -13,7 +13,7 @@ def read(fname):
 
 setup(
     name="pytest-clarity",
-    version="0.3.0a1",
+    version="0.3.0a0",
     author="Darren Burns",
     author_email="darrenb900@gmail.com",
     maintainer="Darren Burns",
