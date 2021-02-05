@@ -1,4 +1,4 @@
-from collections import Sequence
+from collections.abc import Sequence
 
 from pytest_clarity.output import deleted_text, hint_body_text, hint_text, inserted_text
 from pytest_clarity.util import (
