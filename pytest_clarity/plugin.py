@@ -1,81 +1,45 @@
-import sys
+from io import StringIO
 
-from pytest_clarity.diff import build_split_diff, build_unified_diff
-from pytest_clarity.hints import hints_for
-from pytest_clarity.output import Colour, deleted_text, diff_intro_text, inserted_text
-from pytest_clarity.util import display_op_for, pformat_no_color, utf8_replace
+from rich.console import Console
+
+from pytest_clarity.diff import Diff
+from pytest_clarity.util import display_op_for
 
 
 def pytest_addoption(parser):
-    parser.addoption(
-        "--no-hints",
-        action="store_true",
-        default=False,
-        help="pytest-clarity: disable hints (boolean)",
-    )
-
     parser.addoption(
         "--diff-width",
         action="store",
         default="80",
         help="pytest-clarity: configure output width",
     )
-
     parser.addoption(
-        "--diff-type",
-        action="store",
-        default="auto",
-        help="pytest-clarity: default auto. one of [auto, unified, split]",
+        "--diff-symbols",
+        action="store_true",
+        default=False,
+        help="pytest-clarity: configure whether to display diff symbols",
     )
 
 
 def pytest_assertrepr_compare(config, op, left, right):
-    if config.getoption('-v') < 2:
+    if config.getoption("-v") < 2:
         return
 
     op = display_op_for(op)
-
     width = int(config.getoption("--diff-width"))
-    diff_type = config.getoption("--diff-type")
+    show_symbols = bool(config.getoption("--diff-symbols"))
 
-    lhs_repr = pformat_no_color(utf8_replace(left), width)
-    rhs_repr = pformat_no_color(utf8_replace(right), width)
+    diff = Diff(left, right, width, show_symbols)
 
-    if diff_type == "split":
-        output = build_full_splitdiff_output(lhs_repr, rhs_repr, op)
-    elif diff_type == "unified":
-        output = build_full_unidiff_output(lhs_repr, rhs_repr, op)
-    else:  # assume diff_type == "auto" so decide based on newlines
-        if "\n" in lhs_repr and "\n" in rhs_repr:
-            output = build_full_unidiff_output(lhs_repr, rhs_repr, op)
-        else:
-            output = build_full_splitdiff_output(lhs_repr, rhs_repr, op)
+    output = StringIO()
+    console = Console(file=output, record=True)
 
-    if not config.getoption("--no-hints"):
-        output += hints_for(op, left, right)
+    console.print("\n[green]LHS[/] vs [red]RHS[/] shown below\n")
+    console.print(diff)
 
-    return [utf8_replace(line) for line in output]
+    diff_text = console.export_text(styles=True)
 
-
-def build_full_unidiff_output(lhs_repr, rhs_repr, op):
-    left_key = inserted_text("L=left")
-    right_key = deleted_text("R=right")
     return [
-        "left {} right failed. ".format(op),
-        "{}Showing unified diff ({}, {}):".format(Colour.stop, left_key, right_key),
-        "",
-    ] + build_unified_diff(lhs_repr, rhs_repr)
-
-
-def build_full_splitdiff_output(lhs_repr, rhs_repr, op):
-    lhs_diff, rhs_diff = build_split_diff(lhs_repr, rhs_repr)
-    output = [
-        "left {} right failed.".format(op),
-        "{}Showing split diff:".format(Colour.stop),
-        "",
+        f"{display_op_for(op)} failed. [pytest-clarity diff shown]",
+        *[f"\033[0m{line}" for line in diff_text.split(f"\n")],
     ]
-    if lhs_diff and rhs_diff:
-        lhs_diff[0] = Colour.stop + diff_intro_text("left:  ") + lhs_diff[0]
-        rhs_diff[0] = Colour.stop + diff_intro_text("right: ") + rhs_diff[0]
-    output += lhs_diff + rhs_diff
-    return output
