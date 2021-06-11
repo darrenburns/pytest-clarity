@@ -28,7 +28,7 @@ Supports Python 3.6+.
 Installation
 ------------
 
-You can install "pytest-clarity" via `pip`_ from `PyPI`_::
+You can install "pytest-clarity" via ``pip``::
 
     $ pip install pytest-clarity
 
