@@ -18,7 +18,19 @@ pytest-clarity
     :target: https://travis-ci.org/darrenburns/pytest-clarity
     :alt: See Build Status on Travis CI
 
-A plugin which brings the coloured diff output from the `Ward test framework <https://github.com/darrenburns/ward>`_ to pytest.
+A pytest plugin which brings the coloured diff output from the `Ward test framework <https://github.com/darrenburns/ward>`_ to pytest.
+
+Before
+------
+.. image:: https://user-images.githubusercontent.com/5740731/121730571-c5387600-cae7-11eb-96eb-eaa6d4cfd09f.png
+     :alt: Example output without pytest-clarity
+
+
+After
+-----
+.. image:: https://user-images.githubusercontent.com/5740731/121730569-c4074900-cae7-11eb-9416-47f02ca4ff82.png
+     :alt: Example output without pytest-clarity
+
 
 Requirements
 ------------
@@ -38,7 +50,7 @@ Usage
 
 Install the plugin as described above.
 
-*The plugin will only be activated when the `-vv` option is supplied to `pytest`.*
+The plugin will only be activated when the :code:`-vv` option is supplied to :code:`pytest`.
 
 You can configure the width of the output with the :code:`--diff-width` option:
 
