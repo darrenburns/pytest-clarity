@@ -20,17 +20,15 @@ pytest-clarity
 
 A pytest plugin which brings the coloured diff output from the `Ward test framework <https://github.com/darrenburns/ward>`_ to pytest.
 
-Before
-------
-.. image:: https://user-images.githubusercontent.com/5740731/121730571-c5387600-cae7-11eb-96eb-eaa6d4cfd09f.png
-     :alt: Example output without pytest-clarity
-
-
 After
 -----
+.. image:: https://user-images.githubusercontent.com/5740731/121730571-c5387600-cae7-11eb-96eb-eaa6d4cfd09f.png
+     :alt: Example output with pytest-clarity
+
+Before
+------
 .. image:: https://user-images.githubusercontent.com/5740731/121730569-c4074900-cae7-11eb-9416-47f02ca4ff82.png
      :alt: Example output without pytest-clarity
-
 
 Requirements
 ------------
