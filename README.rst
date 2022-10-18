@@ -60,3 +60,8 @@ You can configure the width of the output with the :code:`--diff-width` option:
 You can force `pytest-clarity` to show a symbolic diff with :code:`--diff-symbols`::
 
     pytest -vv --diff-symbols
+
+
+In case you want to explicitly disable `pytest-clarity` but keep the verbosity level, you can force that with :code:`--disable-clarity`::
+
+    pytest -vv --disable-clarity
