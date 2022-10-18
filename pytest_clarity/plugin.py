@@ -19,10 +19,16 @@ def pytest_addoption(parser):
         default=False,
         help="pytest-clarity: configure whether to display diff symbols",
     )
+    parser.addoption(
+        "--disable-clarity",
+        action="store_true",
+        default=False,
+        help="pytest-clarity: disable regardless verbosity option",
+    )
 
 
 def pytest_assertrepr_compare(config, op, left, right):
-    if config.getoption("-v") < 2:
+    if config.getoption("--disable-clarity") or config.getoption("-v") < 2:
         return
 
     op = display_op_for(op)
