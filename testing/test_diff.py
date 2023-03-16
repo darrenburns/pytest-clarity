@@ -2,8 +2,13 @@ from typing import List
 
 from rich.text import Span, Text
 
-from ward import fixture, test
-from ward._diff import Diff
+from ward import fixture, test, skip
+from pytest_clarity.diff import Diff
+
+try:
+    from pydantic import BaseModel
+except ImportError:
+    BaseModel = None
 
 
 @test("Diff renders a simple string diff correctly (no symbols, no intraline diff)")
@@ -151,6 +156,82 @@ def _(lhs=molecule_man, rhs=molecule_woman):
 
 @test("Diff renders symbolic multiline diff correctly, when lines in common")
 def _(lhs=molecule_man, rhs=molecule_woman):
+    diff = Diff(lhs, rhs, 80, show_symbols=True)
+    diff_lines: List[Text] = list(diff.__rich_console__(None, None))
+
+    assert diff_lines == [
+        Text("  {"),
+        Text("      'age': 29,"),
+        Text(
+            "+     'name': 'Molecule Man',",
+        ),
+        Text("?                       ^"),
+        Text(
+            "-     'name': 'Molecule Woman',",
+        ),
+        Text(
+            "?                       ^^^",
+        ),
+        Text("      'powers': ['Turning tiny', 'Radiation blast'],"),
+        Text("      'secretIdentity': 'Dan Jukes',"),
+        Text("  }"),
+    ]
+
+
+if BaseModel is not None:
+
+    class MoleculeHuman(BaseModel):
+        name: str
+        age: int
+        secretIdentity: str
+        powers: List[str]
+
+
+@fixture
+def molecule_man_base_model(man=molecule_man):
+    return MoleculeHuman.parse_obj(man) if BaseModel is not None else None
+
+
+@fixture
+def molecule_woman_base_model(woman=molecule_woman):
+    return MoleculeHuman.parse_obj(woman) if BaseModel is not None else None
+
+
+@skip("BaseModel is not available", when=BaseModel is None)
+@test("Diff renders multiline diff correctly, when lines in common")
+def _(lhs=molecule_man_base_model, rhs=molecule_woman_base_model):
+    print(lhs, rhs)
+    diff = Diff(lhs, rhs, 80)
+    diff_lines: List[Text] = list(diff.__rich_console__(None, None))
+
+    assert diff_lines == [
+        Text("{"),
+        Text("    'age': 29,"),
+        Text(
+            "    'name': 'Molecule Man',",
+            spans=[
+                Span(0, 22, "green"),
+                Span(22, 23, "white on green"),
+                Span(23, 27, "green"),
+            ],
+        ),
+        Text(
+            "    'name': 'Molecule Woman',",
+            spans=[
+                Span(0, 22, "red"),
+                Span(22, 25, "white on red"),
+                Span(25, 29, "red"),
+            ],
+        ),
+        Text("    'powers': ['Turning tiny', 'Radiation blast'],"),
+        Text("    'secretIdentity': 'Dan Jukes',"),
+        Text("}"),
+    ]
+
+
+@skip("BaseModel is not available", when=BaseModel is None)
+@test("Diff renders symbolic multiline diff correctly, when lines in common")
+def _(lhs=molecule_man_base_model, rhs=molecule_woman_base_model):
     diff = Diff(lhs, rhs, 80, show_symbols=True)
     diff_lines: List[Text] = list(diff.__rich_console__(None, None))
 
