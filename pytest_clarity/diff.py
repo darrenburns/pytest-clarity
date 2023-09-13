@@ -6,7 +6,9 @@ from rich.console import Console, ConsoleOptions, RenderResult
 from rich.text import Text
 
 try:
-    from pydantic import BaseModel
+    from pydantic import BaseModel, __version__
+
+    is_pydantic_v1 = __version__.startswith("1")
 except ImportError:
     BaseModel = None
 
@@ -16,13 +18,15 @@ class Diff:
         if isinstance(lhs, str):
             self.lhs = lhs
         elif BaseModel is not None and isinstance(lhs, BaseModel):
-            self.lhs = pprintpp.pformat(lhs.dict(), width=width)
+            lhs_dict = lhs.dict() if is_pydantic_v1 else lhs.model_dump()
+            self.lhs = pprintpp.pformat(lhs_dict, width=width)
         else:
             self.lhs = pprintpp.pformat(lhs, width=width)
         if isinstance(rhs, str):
             self.rhs = rhs
         elif BaseModel is not None and isinstance(rhs, BaseModel):
-            self.rhs = pprintpp.pformat(rhs.dict(), width=width)
+            rhs_dict = rhs.dict() if is_pydantic_v1 else rhs.model_dump()
+            self.rhs = pprintpp.pformat(rhs_dict, width=width)
         else:
             self.rhs = pprintpp.pformat(rhs, width=width)
         self.width = width
@@ -114,7 +118,9 @@ class Diff:
         return output_lines
 
     def __rich_console__(
-        self, console: Console, options: ConsoleOptions
+        self,
+        console: Console,
+        options: ConsoleOptions,
     ) -> RenderResult:
         if self.show_symbols:
             result = self.build_symbolic_unified_diff()
