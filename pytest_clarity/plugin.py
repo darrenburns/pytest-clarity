@@ -41,5 +41,5 @@ def pytest_assertrepr_compare(config, op, left, right):
 
     return [
         f"{display_op_for(op)} failed. [pytest-clarity diff shown]",
-        *[f"\033[0m{line}" for line in diff_text.split(f"\n")],
+        *[f"\033[0m{line}" for line in diff_text.split("\n")],
     ]
