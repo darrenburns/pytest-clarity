@@ -32,7 +32,7 @@ def pytest_assertrepr_compare(config, op, left, right):
     diff = Diff(left, right, width, show_symbols)
 
     output = StringIO()
-    console = Console(file=output, record=True)
+    console = Console(file=output, record=True, width=width)
 
     console.print("\n[green]LHS[/] vs [red]RHS[/] shown below\n")
     console.print(diff)
