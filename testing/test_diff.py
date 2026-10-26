@@ -3,7 +3,8 @@ from typing import List
 from rich.text import Span, Text
 
 from ward import fixture, test
-from ward._diff import Diff
+
+from pytest_clarity.diff import Diff
 
 
 @test("Diff renders a simple string diff correctly (no symbols, no intraline diff)")
@@ -171,3 +172,45 @@ def _(lhs=molecule_man, rhs=molecule_woman):
         Text("      'secretIdentity': 'Dan Jukes',"),
         Text("  }"),
     ]
+
+
+for lhs, rhs in [
+    ("hello\n", "hello"),
+    ("hello", "hello\n"),
+    ("hello\r\n", "hello\n"),
+    ("hello\n", "hello\r\n"),
+    ("first\nsecond\n", "first\nsecond"),
+    ("first\nsecond", "first\nsecond\n"),
+]:
+    for show_symbols in (False, True):
+
+        @test(
+            f"Diff shows line-ending differences between {lhs!r} and {rhs!r} "
+            f"(symbols={show_symbols})"
+        )
+        def _(lhs=lhs, rhs=rhs, show_symbols=show_symbols):
+            diff = Diff(lhs, rhs, 80, show_symbols=show_symbols)
+
+            lines = [line.plain for line in diff.__rich_console__(None, None)]
+
+            lhs_prefix, rhs_prefix = ("+ ", "- ") if show_symbols else ("", "")
+            assert lhs_prefix + repr(lhs) in lines
+            assert rhs_prefix + repr(rhs) in lines
+
+
+@test("Diff preserves the usual rendering for identical line endings")
+def _():
+    diff = Diff("hello\n", "hello\n", 80)
+
+    lines = [line.plain for line in diff.__rich_console__(None, None)]
+
+    assert lines == ["hello"]
+
+
+@test("Diff preserves multiline rendering when line contents differ")
+def _():
+    diff = Diff("first\nsecond", "first\nthird", 80)
+
+    lines = [line.plain for line in diff.__rich_console__(None, None)]
+
+    assert lines == ["first", "second", "third"]
