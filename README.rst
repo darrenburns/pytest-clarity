@@ -60,3 +60,7 @@ You can configure the width of the output with the :code:`--diff-width` option:
 You can force `pytest-clarity` to show a symbolic diff with :code:`--diff-symbols`::
 
     pytest -vv --diff-symbols
+
+When strings differ only in line endings, the diff displays their escaped
+representations (for example, ``'hello\n'`` and ``'hello'``) to make the difference
+visible.

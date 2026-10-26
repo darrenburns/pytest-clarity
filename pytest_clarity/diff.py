@@ -17,6 +17,10 @@ class Diff:
         differ = difflib.Differ()
         lines_lhs = self.lhs.splitlines()
         lines_rhs = self.rhs.splitlines()
+        if self.lhs != self.rhs and lines_lhs == lines_rhs:
+            # Preserve differences that splitlines() would otherwise discard.
+            lines_lhs = [repr(self.lhs)]
+            lines_rhs = [repr(self.rhs)]
         return differ.compare(lines_lhs, lines_rhs)
 
     def build_symbolic_unified_diff(self) -> RenderResult:
