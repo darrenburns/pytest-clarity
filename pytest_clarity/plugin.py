@@ -1,6 +1,7 @@
 from io import StringIO
 
 from rich.console import Console
+from _pytest.config import create_terminal_writer
 
 from pytest_clarity.diff import Diff
 from pytest_clarity.util import display_op_for
@@ -37,9 +38,13 @@ def pytest_assertrepr_compare(config, op, left, right):
     console.print("\n[green]LHS[/] vs [red]RHS[/] shown below\n")
     console.print(diff)
 
-    diff_text = console.export_text(styles=True)
+    reporter = config.pluginmanager.getplugin("terminalreporter")
+    writer = reporter._tw if reporter is not None else create_terminal_writer(config)
+    use_color = writer.hasmarkup
+    diff_text = console.export_text(styles=use_color)
+    reset = "\033[0m" if use_color else ""
 
     return [
         f"{display_op_for(op)} failed. [pytest-clarity diff shown]",
-        *[f"\033[0m{line}" for line in diff_text.split(f"\n")],
+        *[f"{reset}{line}" for line in diff_text.split(f"\n")],
     ]
